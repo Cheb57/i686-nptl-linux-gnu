@@ -1,5 +1,5 @@
 README:
-x86 linux cross compiler tool chain for windows (gcc tool chain revision 5.2 from July 2015)
+x86 cross compiler tool chain for linux under windows (gcc tool chain revision 5.2 from July 2015)
 
 
 Hello,
