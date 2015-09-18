@@ -18,10 +18,7 @@ enum tcp_conntrack {
 	TCP_CONNTRACK_LISTEN,	/* obsolete */
 #define TCP_CONNTRACK_SYN_SENT2	TCP_CONNTRACK_LISTEN
 	TCP_CONNTRACK_MAX,
-	TCP_CONNTRACK_IGNORE,
-	TCP_CONNTRACK_RETRANS,
-	TCP_CONNTRACK_UNACK,
-	TCP_CONNTRACK_TIMEOUT_MAX
+	TCP_CONNTRACK_IGNORE
 };
 
 /* Window scaling is advertised by the sender */
@@ -41,9 +38,6 @@ enum tcp_conntrack {
 
 /* The field td_maxack has been set */
 #define IP_CT_TCP_FLAG_MAXACK_SET		0x20
-
-/* Marks possibility for expected RFC5961 challenge ACK */
-#define IP_CT_EXP_CHALLENGE_ACK 		0x40
 
 struct nf_ct_tcp_flags {
 	__u8 flags;

@@ -44,19 +44,7 @@
 #define PORT_RM9000	16	/* PMC-Sierra RM9xxx internal UART */
 #define PORT_OCTEON	17	/* Cavium OCTEON internal UART */
 #define PORT_AR7	18	/* Texas Instruments AR7 internal UART */
-#define PORT_U6_16550A	19	/* ST-Ericsson U6xxx internal UART */
-#define PORT_TEGRA	20	/* NVIDIA Tegra internal UART */
-#define PORT_XR17D15X	21	/* Exar XR17D15x UART */
-#define PORT_LPC3220	22	/* NXP LPC32xx SoC "Standard" UART */
-#define PORT_8250_CIR	23	/* CIR infrared port, has its own driver */
-#define PORT_XR17V35X	24	/* Exar XR17V35x UARTs */
-#define PORT_BRCM_TRUMANAGE	25
-#define PORT_ALTR_16550_F32 26	/* Altera 16550 UART with 32 FIFOs */
-#define PORT_ALTR_16550_F64 27	/* Altera 16550 UART with 64 FIFOs */
-#define PORT_ALTR_16550_F128 28 /* Altera 16550 UART with 128 FIFOs */
-#define PORT_RT2880	29	/* Ralink RT2880 internal UART */
-#define PORT_16550A_FSL64 30	/* Freescale 16550 UART with 64 FIFOs */
-#define PORT_MAX_8250	30	/* max port ID */
+#define PORT_MAX_8250	18	/* max port ID */
 
 /*
  * ARM specific type numbers.  These are not currently guaranteed
@@ -106,7 +94,7 @@
 /* PPC CPM type number */
 #define PORT_CPM        58
 
-/* MPC52xx (and MPC512x) type numbers */
+/* MPC52xx type numbers */
 #define PORT_MPC52xx	59
 
 /* IBM icom */
@@ -191,74 +179,5 @@
 /* BCM63xx family SoCs */
 #define PORT_BCM63XX	89
 
-/* Aeroflex Gaisler GRLIB APBUART */
-#define PORT_APBUART    90
-
-/* Altera UARTs */
-#define PORT_ALTERA_JTAGUART	91
-#define PORT_ALTERA_UART	92
-
-/* SH-SCI */
-#define PORT_SCIFB	93
-
-/* MAX310X */
-#define PORT_MAX310X	94
-
-/* High Speed UART for Medfield */
-#define PORT_MFD	95
-
-/* TI OMAP-UART */
-#define PORT_OMAP	96
-
-/* VIA VT8500 SoC */
-#define PORT_VT8500	97
-
-/* Cadence (Xilinx Zynq) UART */
-#define PORT_XUARTPS	98
-
-/* Atheros AR933X SoC */
-#define PORT_AR933X	99
-
-/* Energy Micro efm32 SoC */
-#define PORT_EFMUART   100
-
-/* ARC (Synopsys) on-chip UART */
-#define PORT_ARC       101
-
-/* Rocketport EXPRESS/INFINITY */
-#define PORT_RP2	102
-
-/* Freescale lpuart */
-#define PORT_LPUART	103
-
-/* SH-SCI */
-#define PORT_HSCIF	104
-
-/* ST ASC type numbers */
-#define PORT_ASC       105
-
-/* Tilera TILE-Gx UART */
-#define PORT_TILEGX	106
-
-/* MEN 16z135 UART */
-#define PORT_MEN_Z135	107
-
-/* SC16IS74xx */
-#define PORT_SC16IS7XX   108
-
-/* MESON */
-#define PORT_MESON	109
-
-/* Conexant Digicolor */
-#define PORT_DIGICOLOR	110
-
-/* SPRD SERIAL  */
-#define PORT_SPRD	111
-
-/* Cris v10 / v32 SoC */
-#define PORT_CRIS	112
-
-/* STM32 USART */
-#define PORT_STM32	113
 
 #endif /* LINUX_SERIAL_CORE_H */

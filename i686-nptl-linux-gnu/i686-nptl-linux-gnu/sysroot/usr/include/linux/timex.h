@@ -63,27 +63,27 @@
  */
 struct timex {
 	unsigned int modes;	/* mode selector */
-	__kernel_long_t offset;	/* time offset (usec) */
-	__kernel_long_t freq;	/* frequency offset (scaled ppm) */
-	__kernel_long_t maxerror;/* maximum error (usec) */
-	__kernel_long_t esterror;/* estimated error (usec) */
+	long offset;		/* time offset (usec) */
+	long freq;		/* frequency offset (scaled ppm) */
+	long maxerror;		/* maximum error (usec) */
+	long esterror;		/* estimated error (usec) */
 	int status;		/* clock command/status */
-	__kernel_long_t constant;/* pll time constant */
-	__kernel_long_t precision;/* clock precision (usec) (read only) */
-	__kernel_long_t tolerance;/* clock frequency tolerance (ppm)
-				   * (read only)
-				   */
-	struct timeval time;	/* (read only, except for ADJ_SETOFFSET) */
-	__kernel_long_t tick;	/* (modified) usecs between clock ticks */
+	long constant;		/* pll time constant */
+	long precision;		/* clock precision (usec) (read only) */
+	long tolerance;		/* clock frequency tolerance (ppm)
+				 * (read only)
+				 */
+	struct timeval time;	/* (read only) */
+	long tick;		/* (modified) usecs between clock ticks */
 
-	__kernel_long_t ppsfreq;/* pps frequency (scaled ppm) (ro) */
-	__kernel_long_t jitter; /* pps jitter (us) (ro) */
+	long ppsfreq;           /* pps frequency (scaled ppm) (ro) */
+	long jitter;            /* pps jitter (us) (ro) */
 	int shift;              /* interval duration (s) (shift) (ro) */
-	__kernel_long_t stabil;            /* pps stability (scaled ppm) (ro) */
-	__kernel_long_t jitcnt; /* jitter limit exceeded (ro) */
-	__kernel_long_t calcnt; /* calibration intervals (ro) */
-	__kernel_long_t errcnt; /* calibration errors (ro) */
-	__kernel_long_t stbcnt; /* stability limit exceeded (ro) */
+	long stabil;            /* pps stability (scaled ppm) (ro) */
+	long jitcnt;            /* jitter limit exceeded (ro) */
+	long calcnt;            /* calibration intervals (ro) */
+	long errcnt;            /* calibration errors (ro) */
+	long stbcnt;            /* stability limit exceeded (ro) */
 
 	int tai;		/* TAI offset (ro) */
 
@@ -102,7 +102,6 @@ struct timex {
 #define ADJ_STATUS		0x0010	/* clock status */
 #define ADJ_TIMECONST		0x0020	/* pll time constant */
 #define ADJ_TAI			0x0080	/* set TAI offset */
-#define ADJ_SETOFFSET		0x0100  /* add 'time' to current time */
 #define ADJ_MICRO		0x1000	/* select microsecond resolution */
 #define ADJ_NANO		0x2000	/* select nanosecond resolution */
 #define ADJ_TICK		0x4000	/* tick value */
@@ -110,16 +109,13 @@ struct timex {
 #define ADJ_OFFSET_SINGLESHOT	0x8001	/* old-fashioned adjtime */
 #define ADJ_OFFSET_SS_READ	0xa001	/* read-only adjtime */
 
-/* NTP userland likes the MOD_ prefix better */
+/* xntp 3.4 compatibility names */
 #define MOD_OFFSET	ADJ_OFFSET
 #define MOD_FREQUENCY	ADJ_FREQUENCY
 #define MOD_MAXERROR	ADJ_MAXERROR
 #define MOD_ESTERROR	ADJ_ESTERROR
 #define MOD_STATUS	ADJ_STATUS
 #define MOD_TIMECONST	ADJ_TIMECONST
-#define MOD_TAI	ADJ_TAI
-#define MOD_MICRO	ADJ_MICRO
-#define MOD_NANO	ADJ_NANO
 
 
 /*
@@ -161,4 +157,4 @@ struct timex {
 #define TIME_BAD	TIME_ERROR /* bw compat */
 
 
-#endif /* _LINUX_TIMEX_H */
+#endif /* LINUX_TIMEX_H */

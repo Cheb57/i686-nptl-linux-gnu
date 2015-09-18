@@ -16,7 +16,6 @@ typedef unsigned long sigset_t;
 
 #endif /* __ASSEMBLY__ */
 
-
 #define SIGHUP		 1
 #define SIGINT		 2
 #define SIGQUIT		 3
@@ -85,6 +84,12 @@ typedef unsigned long sigset_t;
 
 #define SA_RESTORER	0x04000000
 
+/*
+ * sigaltstack controls
+ */
+#define SS_ONSTACK	1
+#define SS_DISABLE	2
+
 #define MINSIGSTKSZ	2048
 #define SIGSTKSZ	8192
 
@@ -93,8 +98,10 @@ typedef unsigned long sigset_t;
 #ifndef __ASSEMBLY__
 
 
-/* Here we must cater to libcs that poke about in kernel headers.  */
+#define __ARCH_HAS_SA_RESTORER
+
 #ifdef __i386__
+/* Here we must cater to libcs that poke about in kernel headers.  */
 
 struct sigaction {
 	union {
@@ -116,6 +123,10 @@ struct sigaction {
 	unsigned long sa_flags;
 	__sigrestore_t sa_restorer;
 	sigset_t sa_mask;		/* mask last for extensibility */
+};
+
+struct k_sigaction {
+	struct sigaction sa;
 };
 
 #endif /* !__i386__ */

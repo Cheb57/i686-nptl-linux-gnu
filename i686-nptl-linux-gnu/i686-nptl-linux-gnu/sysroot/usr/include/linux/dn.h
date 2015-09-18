@@ -1,9 +1,7 @@
 #ifndef _LINUX_DN_H
 #define _LINUX_DN_H
 
-#include <linux/ioctl.h>
 #include <linux/types.h>
-#include <linux/if_ether.h>
 
 /*
 
@@ -73,12 +71,14 @@
 /* Structures */
 
 
-struct dn_naddr {
+struct dn_naddr 
+{
 	__le16		a_len;
 	__u8 a_addr[DN_MAXADDL]; /* Two bytes little endian */
 };
 
-struct sockaddr_dn {
+struct sockaddr_dn
+{
 	__u16		sdn_family;
 	__u8		sdn_flags;
 	__u8		sdn_objnum;
@@ -101,7 +101,8 @@ struct optdata_dn {
         __u8   opt_data[16];   /* User data              */
 };
 
-struct accessdata_dn {
+struct accessdata_dn
+{
 	__u8		acc_accl;
 	__u8		acc_acc[DN_MAXACCL];
 	__u8 		acc_passl;
@@ -122,7 +123,7 @@ struct linkinfo_dn {
  * Ethernet address format (for DECnet)
  */
 union etheraddress {
-        __u8 dne_addr[ETH_ALEN];      /* Full ethernet address */
+        __u8 dne_addr[6];             /* Full ethernet address */
   struct {
                 __u8 dne_hiord[4];    /* DECnet HIORD prefix   */
                 __u8 dne_nodeaddr[2]; /* DECnet node address   */

@@ -9,41 +9,16 @@
 #include <linux/types.h>
 #include <linux/ioctl.h>
 
-#define DE_VECTOR 0
-#define DB_VECTOR 1
-#define BP_VECTOR 3
-#define OF_VECTOR 4
-#define BR_VECTOR 5
-#define UD_VECTOR 6
-#define NM_VECTOR 7
-#define DF_VECTOR 8
-#define TS_VECTOR 10
-#define NP_VECTOR 11
-#define SS_VECTOR 12
-#define GP_VECTOR 13
-#define PF_VECTOR 14
-#define MF_VECTOR 16
-#define AC_VECTOR 17
-#define MC_VECTOR 18
-#define XM_VECTOR 19
-#define VE_VECTOR 20
-
 /* Select x86 specific features in <linux/kvm.h> */
 #define __KVM_HAVE_PIT
 #define __KVM_HAVE_IOAPIC
-#define __KVM_HAVE_IRQ_LINE
+#define __KVM_HAVE_DEVICE_ASSIGNMENT
 #define __KVM_HAVE_MSI
 #define __KVM_HAVE_USER_NMI
 #define __KVM_HAVE_GUEST_DEBUG
 #define __KVM_HAVE_MSIX
 #define __KVM_HAVE_MCE
 #define __KVM_HAVE_PIT_STATE2
-#define __KVM_HAVE_XEN_HVM
-#define __KVM_HAVE_VCPU_EVENTS
-#define __KVM_HAVE_DEBUGREGS
-#define __KVM_HAVE_XSAVE
-#define __KVM_HAVE_XCRS
-#define __KVM_HAVE_READONLY_MEM
 
 /* Architectural interrupt line count. */
 #define KVM_NR_INTERRUPTS 256
@@ -104,9 +79,6 @@ struct kvm_ioapic_state {
 #define KVM_IRQCHIP_PIC_MASTER   0
 #define KVM_IRQCHIP_PIC_SLAVE    1
 #define KVM_IRQCHIP_IOAPIC       2
-#define KVM_NR_IRQCHIPS          3
-
-#define KVM_RUN_X86_SMM		 (1 << 0)
 
 /* for KVM_GET_REGS and KVM_SET_REGS */
 struct kvm_regs {
@@ -216,9 +188,9 @@ struct kvm_cpuid_entry2 {
 	__u32 padding[3];
 };
 
-#define KVM_CPUID_FLAG_SIGNIFCANT_INDEX		BIT(0)
-#define KVM_CPUID_FLAG_STATEFUL_FUNC		BIT(1)
-#define KVM_CPUID_FLAG_STATE_READ_NEXT		BIT(2)
+#define KVM_CPUID_FLAG_SIGNIFCANT_INDEX 1
+#define KVM_CPUID_FLAG_STATEFUL_FUNC    2
+#define KVM_CPUID_FLAG_STATE_READ_NEXT  4
 
 /* for KVM_SET_CPUID2 */
 struct kvm_cpuid2 {
@@ -278,83 +250,4 @@ struct kvm_reinject_control {
 	__u8 pit_reinject;
 	__u8 reserved[31];
 };
-
-/* When set in flags, include corresponding fields on KVM_SET_VCPU_EVENTS */
-#define KVM_VCPUEVENT_VALID_NMI_PENDING	0x00000001
-#define KVM_VCPUEVENT_VALID_SIPI_VECTOR	0x00000002
-#define KVM_VCPUEVENT_VALID_SHADOW	0x00000004
-#define KVM_VCPUEVENT_VALID_SMM		0x00000008
-
-/* Interrupt shadow states */
-#define KVM_X86_SHADOW_INT_MOV_SS	0x01
-#define KVM_X86_SHADOW_INT_STI		0x02
-
-/* for KVM_GET/SET_VCPU_EVENTS */
-struct kvm_vcpu_events {
-	struct {
-		__u8 injected;
-		__u8 nr;
-		__u8 has_error_code;
-		__u8 pad;
-		__u32 error_code;
-	} exception;
-	struct {
-		__u8 injected;
-		__u8 nr;
-		__u8 soft;
-		__u8 shadow;
-	} interrupt;
-	struct {
-		__u8 injected;
-		__u8 pending;
-		__u8 masked;
-		__u8 pad;
-	} nmi;
-	__u32 sipi_vector;
-	__u32 flags;
-	struct {
-		__u8 smm;
-		__u8 pending;
-		__u8 smm_inside_nmi;
-		__u8 latched_init;
-	} smi;
-	__u32 reserved[9];
-};
-
-/* for KVM_GET/SET_DEBUGREGS */
-struct kvm_debugregs {
-	__u64 db[4];
-	__u64 dr6;
-	__u64 dr7;
-	__u64 flags;
-	__u64 reserved[9];
-};
-
-/* for KVM_CAP_XSAVE */
-struct kvm_xsave {
-	__u32 region[1024];
-};
-
-#define KVM_MAX_XCRS	16
-
-struct kvm_xcr {
-	__u32 xcr;
-	__u32 reserved;
-	__u64 value;
-};
-
-struct kvm_xcrs {
-	__u32 nr_xcrs;
-	__u32 flags;
-	struct kvm_xcr xcrs[KVM_MAX_XCRS];
-	__u64 padding[16];
-};
-
-/* definition of registers in kvm_run */
-struct kvm_sync_regs {
-};
-
-#define KVM_X86_QUIRK_LINT0_REENABLED	(1 << 0)
-#define KVM_X86_QUIRK_CD_NW_CLEARED	(1 << 1)
-
 #endif /* _ASM_X86_KVM_H */

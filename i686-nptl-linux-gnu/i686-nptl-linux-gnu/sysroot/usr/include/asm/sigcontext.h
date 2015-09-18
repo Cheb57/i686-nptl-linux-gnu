@@ -25,7 +25,7 @@ struct _fpx_sw_bytes {
 	__u32 extended_size;	/* total size of the layout referred by
 				 * fpstate pointer in the sigcontext.
 				 */
-	__u64 xfeatures;
+	__u64 xstate_bv;
 				/* feature bit mask (including fp/sse/extended
 				 * state) that is present in the memory
 				 * layout.
@@ -155,43 +155,40 @@ struct _fpstate {
  * User-space might still rely on the old definition:
  */
 struct sigcontext {
-	__u64 r8;
-	__u64 r9;
-	__u64 r10;
-	__u64 r11;
-	__u64 r12;
-	__u64 r13;
-	__u64 r14;
-	__u64 r15;
-	__u64 rdi;
-	__u64 rsi;
-	__u64 rbp;
-	__u64 rbx;
-	__u64 rdx;
-	__u64 rax;
-	__u64 rcx;
-	__u64 rsp;
-	__u64 rip;
-	__u64 eflags;		/* RFLAGS */
-	__u16 cs;
-	__u16 gs;
-	__u16 fs;
-	__u16 __pad0;
-	__u64 err;
-	__u64 trapno;
-	__u64 oldmask;
-	__u64 cr2;
+	unsigned long r8;
+	unsigned long r9;
+	unsigned long r10;
+	unsigned long r11;
+	unsigned long r12;
+	unsigned long r13;
+	unsigned long r14;
+	unsigned long r15;
+	unsigned long rdi;
+	unsigned long rsi;
+	unsigned long rbp;
+	unsigned long rbx;
+	unsigned long rdx;
+	unsigned long rax;
+	unsigned long rcx;
+	unsigned long rsp;
+	unsigned long rip;
+	unsigned long eflags;		/* RFLAGS */
+	unsigned short cs;
+	unsigned short gs;
+	unsigned short fs;
+	unsigned short __pad0;
+	unsigned long err;
+	unsigned long trapno;
+	unsigned long oldmask;
+	unsigned long cr2;
 	struct _fpstate *fpstate;	/* zero when no FPU context */
-#ifdef __ILP32__
-	__u32 __fpstate_pad;
-#endif
-	__u64 reserved1[8];
+	unsigned long reserved1[8];
 };
 
 #endif /* !__i386__ */
 
-struct _header {
-	__u64 xfeatures;
+struct _xsave_hdr {
+	__u64 xstate_bv;
 	__u64 reserved1[2];
 	__u64 reserved2[5];
 };
@@ -209,7 +206,7 @@ struct _ymmh_state {
  */
 struct _xstate {
 	struct _fpstate fpstate;
-	struct _header xstate_hdr;
+	struct _xsave_hdr xstate_hdr;
 	struct _ymmh_state ymmh;
 	/* new processor state extensions go here */
 };

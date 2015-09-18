@@ -113,4 +113,7 @@ struct sdla_dlci_conf {
 };
 
 
-#endif /* SDLA_H */
+void sdla(void *cfg_info, char *dev, struct frad_conf *conf, int quiet);
+
+
+#endif

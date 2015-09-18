@@ -21,6 +21,11 @@
  * this size.
  */
 
+/*
+ * Odd: 'make headers_check' complains about numa.h if I try
+ * to collapse the next two #ifdef lines to a single line:
+ *	#if defined(__KERNEL__) && defined(CONFIG_EFI)
+ */
 #define E820_X_MAX E820MAX
 
 #define E820NR	0x1e8		/* # entries in E820MAP */
@@ -30,25 +35,8 @@
 #define E820_ACPI	3
 #define E820_NVS	4
 #define E820_UNUSABLE	5
-#define E820_PMEM	7
 
-/*
- * This is a non-standardized way to represent ADR or NVDIMM regions that
- * persist over a reboot.  The kernel will ignore their special capabilities
- * unless the CONFIG_X86_PMEM_LEGACY=y option is set.
- *
- * ( Note that older platforms also used 6 for the same type of memory,
- *   but newer versions switched to 12 as 6 was assigned differently.  Some
- *   time they will learn... )
- */
-#define E820_PRAM	12
-
-/*
- * reserved RAM used by kernel itself
- * if CONFIG_INTEL_TXT is enabled, memory of this type will be
- * included in the S3 integrity calculation and so should not include
- * any memory that BIOS might alter over the S3 transition
- */
+/* reserved RAM used by kernel itself */
 #define E820_RESERVED_KERN        128
 
 #ifndef __ASSEMBLY__
@@ -64,16 +52,14 @@ struct e820map {
 	struct e820entry map[E820_X_MAX];
 };
 
+#endif /* __ASSEMBLY__ */
+
 #define ISA_START_ADDRESS	0xa0000
 #define ISA_END_ADDRESS		0x100000
+#define is_ISA_range(s, e) ((s) >= ISA_START_ADDRESS && (e) < ISA_END_ADDRESS)
 
 #define BIOS_BEGIN		0x000a0000
 #define BIOS_END		0x00100000
-
-#define BIOS_ROM_BASE		0xffe00000
-#define BIOS_ROM_END		0xffffffff
-
-#endif /* __ASSEMBLY__ */
 
 
 #endif /* _ASM_X86_E820_H */

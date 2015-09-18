@@ -17,7 +17,7 @@ old_library='libopcodes.a'
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/home/src/linux_x86_build/.build/i686-nptl-linux-gnu/build/static-target/lib'
+dependency_libs=' -L/home/src/x86_linux_build/.build/i686-nptl-linux-gnu/build/static-target/lib'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

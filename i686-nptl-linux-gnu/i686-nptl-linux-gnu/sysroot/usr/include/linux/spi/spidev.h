@@ -42,10 +42,6 @@
 #define SPI_LOOP		0x20
 #define SPI_NO_CS		0x40
 #define SPI_READY		0x80
-#define SPI_TX_DUAL		0x100
-#define SPI_TX_QUAD		0x200
-#define SPI_RX_DUAL		0x400
-#define SPI_RX_QUAD		0x800
 
 /*---------------------------------------------------------------------------*/
 
@@ -70,7 +66,7 @@
  * are in a different address space (and may be of different sizes in some
  * cases, such as 32-bit i386 userspace over a 64-bit x86_64 kernel).
  * Zero-initialize the structure, including currently unused fields, to
- * accommodate potential future updates.
+ * accomodate potential future updates.
  *
  * SPI_IOC_MESSAGE gives userspace the equivalent of kernel spi_sync().
  * Pass it an array of related transfers, they'll execute together.
@@ -96,9 +92,7 @@ struct spi_ioc_transfer {
 	__u16		delay_usecs;
 	__u8		bits_per_word;
 	__u8		cs_change;
-	__u8		tx_nbits;
-	__u8		rx_nbits;
-	__u16		pad;
+	__u32		pad;
 
 	/* If the contents of 'struct spi_ioc_transfer' ever change
 	 * incompatibly, then the ioctl number (currently 0) must change;
@@ -116,7 +110,7 @@ struct spi_ioc_transfer {
 #define SPI_IOC_MESSAGE(N) _IOW(SPI_IOC_MAGIC, 0, char[SPI_MSGSIZE(N)])
 
 
-/* Read / Write of SPI mode (SPI_MODE_0..SPI_MODE_3) (limited to 8 bits) */
+/* Read / Write of SPI mode (SPI_MODE_0..SPI_MODE_3) */
 #define SPI_IOC_RD_MODE			_IOR(SPI_IOC_MAGIC, 1, __u8)
 #define SPI_IOC_WR_MODE			_IOW(SPI_IOC_MAGIC, 1, __u8)
 
@@ -131,10 +125,6 @@ struct spi_ioc_transfer {
 /* Read / Write SPI device default max speed hz */
 #define SPI_IOC_RD_MAX_SPEED_HZ		_IOR(SPI_IOC_MAGIC, 4, __u32)
 #define SPI_IOC_WR_MAX_SPEED_HZ		_IOW(SPI_IOC_MAGIC, 4, __u32)
-
-/* Read / Write of the SPI mode field */
-#define SPI_IOC_RD_MODE32		_IOR(SPI_IOC_MAGIC, 5, __u32)
-#define SPI_IOC_WR_MODE32		_IOW(SPI_IOC_MAGIC, 5, __u32)
 
 
 

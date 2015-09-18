@@ -1,6 +1,10 @@
+#ifndef _HIDRAW_H
+#define _HIDRAW_H
+
 /*
  *  Copyright (c) 2007 Jiri Kosina
  */
+
 /*
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU General Public License,
@@ -10,10 +14,6 @@
  * this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef _HIDRAW_H
-#define _HIDRAW_H
-
-
 
 #include <linux/hid.h>
 #include <linux/types.h>
@@ -35,9 +35,6 @@ struct hidraw_devinfo {
 #define HIDIOCGRAWINFO		_IOR('H', 0x03, struct hidraw_devinfo)
 #define HIDIOCGRAWNAME(len)     _IOC(_IOC_READ, 'H', 0x04, len)
 #define HIDIOCGRAWPHYS(len)     _IOC(_IOC_READ, 'H', 0x05, len)
-/* The first byte of SFEATURE and GFEATURE is the report number */
-#define HIDIOCSFEATURE(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x06, len)
-#define HIDIOCGFEATURE(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x07, len)
 
 #define HIDRAW_FIRST_MINOR 0
 #define HIDRAW_MAX_DEVICES 64
@@ -47,4 +44,4 @@ struct hidraw_devinfo {
 
 /* kernel-only API declarations */
 
-#endif /* _HIDRAW_H */
+#endif

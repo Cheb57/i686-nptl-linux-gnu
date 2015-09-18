@@ -1,3 +1,6 @@
+#ifndef _SERIO_H
+#define _SERIO_H
+
 /*
  * Copyright (C) 1999-2002 Vojtech Pavlik
 *
@@ -5,9 +8,6 @@
  * under the terms of the GNU General Public License version 2 as published by
  * the Free Software Foundation.
  */
-#ifndef _SERIO_H
-#define _SERIO_H
-
 
 #include <linux/ioctl.h>
 
@@ -72,10 +72,5 @@
 #define SERIO_INEXIO	0x37
 #define SERIO_TOUCHIT213	0x38
 #define SERIO_W8001	0x39
-#define SERIO_DYNAPRO	0x3a
-#define SERIO_HAMPSHIRE	0x3b
-#define SERIO_PS2MULT	0x3c
-#define SERIO_TSC40	0x3d
-#define SERIO_WACOM_IV	0x3e
 
-#endif /* _SERIO_H */
+#endif

@@ -3,18 +3,8 @@
 
 #include <linux/types.h>
 
-/*
- * FMODE_EXEC is 0x20
- * FMODE_NONOTIFY is 0x4000000
- * These cannot be used by userspace O_* until internal and external open
- * flags are split.
- * -Eric Paris
- */
-
-/*
- * When introducing new O_* bits, please check its uniqueness in fcntl_init().
- */
-
+/* open/fcntl - O_SYNC is only implemented on blocks devices and on files
+   located on an ext2 file system */
 #define O_ACCMODE	00000003
 #define O_RDONLY	00000000
 #define O_WRONLY	00000001
@@ -37,8 +27,8 @@
 #ifndef O_NONBLOCK
 #define O_NONBLOCK	00004000
 #endif
-#ifndef O_DSYNC
-#define O_DSYNC		00010000	/* used to be O_SYNC, see below */
+#ifndef O_SYNC
+#define O_SYNC		00010000
 #endif
 #ifndef FASYNC
 #define FASYNC		00020000	/* fcntl, for BSD compatibility */
@@ -61,37 +51,6 @@
 #ifndef O_CLOEXEC
 #define O_CLOEXEC	02000000	/* set close_on_exec */
 #endif
-
-/*
- * Before Linux 2.6.33 only O_DSYNC semantics were implemented, but using
- * the O_SYNC flag.  We continue to use the existing numerical value
- * for O_DSYNC semantics now, but using the correct symbolic name for it.
- * This new value is used to request true Posix O_SYNC semantics.  It is
- * defined in this strange way to make sure applications compiled against
- * new headers get at least O_DSYNC semantics on older kernels.
- *
- * This has the nice side-effect that we can simply test for O_DSYNC
- * wherever we do not care if O_DSYNC or O_SYNC is used.
- *
- * Note: __O_SYNC must never be used directly.
- */
-#ifndef O_SYNC
-#define __O_SYNC	04000000
-#define O_SYNC		(__O_SYNC|O_DSYNC)
-#endif
-
-#ifndef O_PATH
-#define O_PATH		010000000
-#endif
-
-#ifndef __O_TMPFILE
-#define __O_TMPFILE	020000000
-#endif
-
-/* a horrid kludge trying to make sure that this will fail on old kernels */
-#define O_TMPFILE (__O_TMPFILE | O_DIRECTORY)
-#define O_TMPFILE_MASK (__O_TMPFILE | O_DIRECTORY | O_CREAT)      
-
 #ifndef O_NDELAY
 #define O_NDELAY	O_NONBLOCK
 #endif
@@ -128,33 +87,13 @@
 #define F_GETOWN_EX	16
 #endif
 
-#ifndef F_GETOWNER_UIDS
-#define F_GETOWNER_UIDS	17
-#endif
-
-/*
- * Open File Description Locks
- *
- * Usually record locks held by a process are released on *any* close and are
- * not inherited across a fork().
- *
- * These cmd values will set locks that conflict with process-associated
- * record  locks, but are "owned" by the open file description, not the
- * process. This means that they are inherited across fork() like BSD (flock)
- * locks, and they are only released automatically when the last reference to
- * the the open file against which they were acquired is put.
- */
-#define F_OFD_GETLK	36
-#define F_OFD_SETLK	37
-#define F_OFD_SETLKW	38
-
 #define F_OWNER_TID	0
 #define F_OWNER_PID	1
 #define F_OWNER_PGRP	2
 
 struct f_owner_ex {
 	int	type;
-	__kernel_pid_t	pid;
+	pid_t	pid;
 };
 
 /* for F_[GET|SET]FL */
@@ -171,6 +110,11 @@ struct f_owner_ex {
 #ifndef F_EXLCK
 #define F_EXLCK		4	/* or 3 */
 #define F_SHLCK		8	/* or 4 */
+#endif
+
+/* for leases */
+#ifndef F_INPROGRESS
+#define F_INPROGRESS	16
 #endif
 
 /* operations for bsd flock(), also used by the kernel implementation */
@@ -202,6 +146,8 @@ struct flock {
 };
 #endif
 
+#ifndef CONFIG_64BIT
+
 #ifndef HAVE_ARCH_STRUCT_FLOCK64
 #ifndef __ARCH_FLOCK64_PAD
 #define __ARCH_FLOCK64_PAD
@@ -216,5 +162,6 @@ struct flock64 {
 	__ARCH_FLOCK64_PAD
 };
 #endif
+#endif /* !CONFIG_64BIT */
 
 #endif /* _ASM_GENERIC_FCNTL_H */
